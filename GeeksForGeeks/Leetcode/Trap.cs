@@ -38,20 +38,31 @@ public class Trap
                 }
                 else
                 {
-                    var next = left + 1;
-                    int right2 = next+1;
-                    while(right < height.Length && next < height.Length && height[right] < height[next]){
-                        right+=1;
+                    int right2 = left+1;
+                    if (right2 > height.Length)
+                    {
+                        left += 1;
+                        continue;
                     }
-                    if (right2 >= height.Length || height[right2] < height[next])
+                    int maxHeight = height[right2];
+                    int maxRightIndex = right2;
+                    while(right2 < height.Length){
+                        if (height[right2] > maxHeight)
+                        {
+                            maxHeight = height[right2];
+                            maxRightIndex = right2;
+                        }
+                        right2+=1;
+                    }
+                    if (maxRightIndex == left+1)
                     {
                         left += 1;
                         if(left == height.Length)break;
                     }
                     else
                     {
-                        water += GetWater(height, left, right2);
-                        left = right2;
+                        water += GetWater(height, left, maxRightIndex);
+                        left = maxRightIndex;
                     }
                    
                 }
